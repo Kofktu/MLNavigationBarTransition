@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name         = "MLNavigationBarTransition"
-s.version      = "0.0.2"
+s.version      = "0.0.3"
 s.summary      = "Advanced navigation bar transition based on official push-pop transition"
 
 s.homepage     = 'https://github.com/molon/MLNavigationBarTransition'
@@ -8,7 +8,7 @@ s.license      = { :type => 'MIT'}
 s.author       = { "molon" => "dudl@qq.com" }
 
 s.source       = {
-:git => "https://github.com/molon/MLNavigationBarTransition.git",
+:git => "https://github.com/Kofktu/MLNavigationBarTransition.git",
 :tag => "#{s.version}"
 }
 
