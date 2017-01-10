@@ -30,7 +30,7 @@ MLNBT_SYNTH_DUMMY_CLASS(UINavigationBar_MLNavigationBarTransition)
     if (ivarKey) {
         return [self valueForKey:ivarKey];
     }
-    
+
     NSAssert(NO, @"ml_backgroundView is not valid");
     return nil;
 }
@@ -45,7 +45,7 @@ MLNBT_SYNTH_DUMMY_CLASS(UINavigationBar_MLNavigationBarTransition)
         NSLog(@"%@",exception);
         NSAssert(NO, @"ml_backButtonLabel is not valid");
     }
-    
+
     return label;
 }
 
@@ -75,7 +75,7 @@ MLNBT_SYNTH_DUMMY_CLASS(UINavigationBar_MLNavigationBarTransition)
     if (ivarKey) {
         return [self valueForKey:ivarKey];
     }
-    
+
     NSAssert(NO, @"ml_backgroundView is not valid");
     return nil;
 }
@@ -104,26 +104,26 @@ MLNBT_SYNTH_DUMMY_CLASS(UINavigationBar_MLNavigationBarTransition)
     if (ivarKey) {
         return [self.ml_backgroundView valueForKey:ivarKey];
     }
-    
+
     NSAssert(NO, @"ml_currentBackgroundImage is not valid");
     return nil;
 }
 
 - (UINavigationBar*)ml_replicantBarOfSameBackgroundEffectWithContainerView:(UIView*)containerView {
-    NSAssert(self.window&&[self.window isEqual:containerView.window], @"%@-->\n`containerView.window` must equal to self(UINavigationBar).window",NSStringFromSelector(_cmd));
-    
+    // NSAssert(self.window&&[self.window isEqual:containerView.window], @"%@-->\n`containerView.window` must equal to self(UINavigationBar).window",NSStringFromSelector(_cmd));
+
     UINavigationBar *bar = [UINavigationBar new];
-    
+
     bar.tintColor = self.tintColor;
     bar.barStyle = self.barStyle;
     bar.shadowImage = self.shadowImage;
-    
+
     //backgroundImage
     [bar setBackgroundImage:[self backgroundImageForBarMetrics:UIBarMetricsDefault] forBarMetrics:UIBarMetricsDefault];
     [bar setBackgroundImage:[self backgroundImageForBarMetrics:UIBarMetricsCompact] forBarMetrics:UIBarMetricsCompact];
     [bar setBackgroundImage:[self backgroundImageForBarMetrics:UIBarMetricsDefaultPrompt] forBarMetrics:UIBarMetricsDefaultPrompt];
     [bar setBackgroundImage:[self backgroundImageForBarMetrics:UIBarMetricsCompactPrompt] forBarMetrics:UIBarMetricsCompactPrompt];
-    
+
     //frame
     CGRect frame = self.frame;
     if (containerView) {
@@ -138,25 +138,25 @@ MLNBT_SYNTH_DUMMY_CLASS(UINavigationBar_MLNavigationBarTransition)
             frame.size.width += offset*2;
         }
     }
-    
+
     //in iOS10, if barTintColor is nil, then the ml_backgroundShadowView would be nil.
     //It's not our expectation, so we set non-nil value first to ensure the ml_backgroundShadowView created inside.
     bar.barTintColor = [UIColor blackColor];
     bar.frame = frame;
     bar.barTintColor = self.barTintColor;
-    
+
     CGRect backgroundViewFrame = self.ml_backgroundView.frame;
     backgroundViewFrame.size.width = bar.frame.size.width;
     bar.ml_backgroundView.frame = backgroundViewFrame;
-    
+
     //alpha
     bar.alpha = self.alpha;
     bar.ml_backgroundView.alpha = self.ml_backgroundView.alpha;
-    
+
     //shadow image view alpha and hidden
     bar.ml_backgroundShadowView.alpha = self.ml_backgroundShadowView.alpha;
     bar.ml_backgroundShadowView.hidden = self.ml_backgroundShadowView.hidden;
-    
+
     //_barPosition is important
     @try {
     //    NSLog(@"%@:%@",@"_barPosition",[@"_barPosition" mlnbt_EncryptString]);
@@ -166,10 +166,10 @@ MLNBT_SYNTH_DUMMY_CLASS(UINavigationBar_MLNavigationBarTransition)
         NSAssert(NO, @"setting _barPosition is not valid");
         return nil;
     }
-    
+
     //translucent
     bar.translucent = self.translucent;
-    
+
     return bar;
 }
 
@@ -177,11 +177,11 @@ MLNBT_SYNTH_DUMMY_CLASS(UINavigationBar_MLNavigationBarTransition)
     if (!navigationBar) {
         return NO;
     }
-    
+
     if (self.barStyle!=navigationBar.barStyle) {
         return NO;
     }
-    
+
     if (!CGSizeEqualToSize(self.frame.size, navigationBar.frame.size)||
         self.alpha!=navigationBar.alpha||
         !CGSizeEqualToSize(self.ml_backgroundView.frame.size, navigationBar.ml_backgroundView.frame.size)||
@@ -191,25 +191,25 @@ MLNBT_SYNTH_DUMMY_CLASS(UINavigationBar_MLNavigationBarTransition)
         ) {
         return NO;
     }
-    
+
     if (!((!self.shadowImage&&!navigationBar.shadowImage)||[self.shadowImage isEqual:navigationBar.shadowImage]||[UIImagePNGRepresentation(self.shadowImage) isEqual:UIImagePNGRepresentation(navigationBar.shadowImage)])) {
         return NO;
     }
-    
+
     //if backgroundImages equal, ignore barTintColor
     UIImage *backgroundImage1 = self.ml_currentBackgroundImage;
     UIImage *backgroundImage2 = navigationBar.ml_currentBackgroundImage;
     if ([backgroundImage1 isEqual:backgroundImage2]||[UIImagePNGRepresentation(backgroundImage1) isEqual:UIImagePNGRepresentation(backgroundImage2)]) {
         return YES;
     }
-    
+
     //if no backgroundImages, barTintColor should be cared
     if (!backgroundImage1&&!backgroundImage2) {
         if (CGColorEqualToColor(self.barTintColor.CGColor, navigationBar.barTintColor.CGColor)) {
             return YES;
         }
     }
-    
+
     return NO;
 }
 
